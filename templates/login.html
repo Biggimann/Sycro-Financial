@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Sign In · SYCRO-FINANCIAL{% endblock %}
+{% block auth_content %}
+<div class="auth-screen">
+  <div class="auth-panel">
+    <div class="auth-card">
+      <h1>Welcome Back</h1>
+      <p class="auth-sub">Sign in to your account.</p>
+      <form method="POST">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="you@example.com" required>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••••" required>
+        <button type="submit" class="btn-primary">Sign In</button>
+      </form>
+      <p class="auth-foot">No account yet? <a href="{{ url_for('signup') }}">Create one</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

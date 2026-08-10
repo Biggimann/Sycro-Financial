@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · SYCRO-FINANCIAL{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Welcome back, {{ user['full_name'].split(' ')[0] }} <span class="wave">👋</span></h1>
+    <p class="subtle">Here's your account overview</p>
+  </div>
+</div>
+
+<div class="cards-row">
+  <div class="card card-checking">
+    <div class="card-top">
+      <span>Checking Account</span>
+      <div class="card-icon">🏦</div>
+    </div>
+    <div class="card-balance">${{ "{:,.2f}".format(user['checking_balance']) }}</div>
+    <div class="card-label">Available Balance</div>
+    <svg class="spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+      <polyline points="0,18 15,14 30,16 45,9 60,12 75,5 100,8" />
+    </svg>
+  </div>
+
+  <div class="card card-savings">
+    <div class="card-top">
+      <span>Rainbow Savings</span>
+      <div class="card-icon">🌈</div>
+    </div>
+    <div class="card-balance">${{ "{:,.2f}".format(user['savings_balance']) }}</div>
+    <div class="card-label">Available Balance</div>
+    <svg class="spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+      <polyline points="0,16 15,10 30,13 45,6 60,10 75,4 100,7" />
+    </svg>
+  </div>
+
+  <div class="card card-pending">
+    <div class="card-top">
+      <span>Pending</span>
+      <div class="card-icon">⏱</div>
+    </div>
+    <div class="card-balance">${{ "{:,.2f}".format(pending_total) }}</div>
+    <div class="card-label">Pending Transactions</div>
+    <svg class="spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+      <polyline points="0,12 15,12 30,12 45,12 60,12 75,12 100,12" />
+    </svg>
+  </div>
+</div>
+
+<div class="panels-row">
+  <div class="panel panel-wide">
+    <div class="panel-head">
+      <span>Recent Transactions</span>
+      <a href="{{ url_for('transfer') }}" class="panel-link">New transfer →</a>
+    </div>
+    {% if txns %}
+      <ul class="txn-list">
+      {% for t in txns %}
+        {% set is_neg = t['amount'] < 0 %}
+        {% set desc_lower = t['description']|lower %}
+        {% if 'deposit' in desc_lower %}{% set icon = '⬇️' %}
+        {% elif 'bill' in desc_lower %}{% set icon = '🧾' %}
+        {% elif 'transfer' in desc_lower %}{% set icon = '🔁' %}
+        {% else %}{% set icon = '💳' %}
+        {% endif %}
+        <li>
+          <div class="txn-left">
+            <div class="txn-icon {{ 'txn-icon-neg' if is_neg else 'txn-icon-pos' }}">{{ icon }}</div>
+            <div>
+              <div class="txn-desc">{{ t['description'] }}</div>
+              <div class="txn-date">{{ t['created_at'] }} · {{ t['account']|title }}</div>
+            </div>
+          </div>
+          <div class="txn-amt {{ 'neg' if is_neg else 'pos' }}">
+            {{ '-' if is_neg else '+' }}${{ "{:,.2f}".format(t['amount']|abs) }}
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">📄</div>
+        <p class="empty">No transactions yet.</p>
+        <a href="{{ url_for('transfer') }}" class="empty-cta">Make your first transfer</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><span>Quick Actions</span></div>
+    <div class="quick-actions">
+      <a href="{{ url_for('transfer') }}" class="qa-btn">
+        <span class="qa-icon">🔁</span>Transfer
+      </a>
+      <a href="{{ url_for('billpay') }}" class="qa-btn">
+        <span class="qa-icon">🧾</span>Pay Bills
+      </a>
+      <a href="{{ url_for('profile') }}" class="qa-btn">
+        <span class="qa-icon">👤</span>Profile
+      </a>
+    </div>
+    <div class="mini-summary">
+      <div class="mini-row"><span>Total balance</span><strong>${{ "{:,.2f}".format(user['checking_balance'] + user['savings_balance']) }}</strong></div>
+      <div class="mini-row"><span>Accounts</span><strong>2 active</strong></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
