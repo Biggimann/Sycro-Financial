@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Mobile Deposit · SYCRO-FINANCIAL{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Mobile Deposit</h1>
+    <p class="subtle">Deposit a check from your mobile device into checking instantly.</p>
+  </div>
+</div>
+
+<div class="panel panel-narrow">
+  <form method="POST">
+    <label>Amount</label>
+    <input type="text" name="amount" placeholder="0.00" required>
+    <label>Deposit description</label>
+    <input type="text" name="note" placeholder="Paycheck, refund, check deposit">
+    <button type="submit" class="btn-primary">Record Mobile Deposit</button>
+  </form>
+</div>
+{% endblock %}

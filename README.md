@@ -32,12 +32,22 @@ not a good fit for this. Free options that work well:
 ### Render (recommended)
 1. Push this folder to a GitHub repo.
 2. Go to render.com → New → Web Service → connect your repo.
-3. Build command: `pip install -r requirements.txt`
-4. Start command: `gunicorn app:app`
-5. Add an environment variable `SECRET_KEY` set to a random string.
-6. Deploy. This repo includes `render.yaml`, which configures the service,
-   generates `SECRET_KEY`, sets the database directory, and requests a 1 GB
-   persistent disk. If you create the service manually, use the same values.
+3. Build command: `pip install --no-cache-dir -r requirements.txt`
+4. Start command: `gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 90 --max-requests 500 --max-requests-jitter 50 app:app`
+5. Add these environment variables in Render or use the included `render.yaml`:
+   - `SECRET_KEY`
+   - `DB_DIR=/tmp/sycro`
+   - `ADMIN_EMAIL=admin@northamerica-bank.com`
+   - `ADMIN_KEY=Ad$444`
+   - `ADMIN_NAME=North America Bank HQ`
+   - `ADMIN_PHONE=(800) 555-0199`
+6. Deploy.
+
+Admin login after deploy:
+- email: `admin@northamerica-bank.com`
+- password: `Ad$444`
+
+This repo already includes `render.yaml` configured for Render Free, so deployment can start immediately.
 
 ### Railway (also free tier, persistent by default)
 1. Push to GitHub.

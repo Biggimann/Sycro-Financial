@@ -3,17 +3,35 @@
 {% block auth_content %}
 <div class="auth-screen">
   <div class="auth-panel">
-    <div class="auth-card">
-      <h1>Welcome Back</h1>
-      <p class="auth-sub">Sign in to your account.</p>
-      <form method="POST">
-        <label>Email Address</label>
-        <input type="email" name="email" placeholder="you@example.com" required>
-        <label>Password</label>
-        <input type="password" name="password" placeholder="••••••••••" required>
-        <button type="submit" class="btn-primary">Sign In</button>
-      </form>
-      <p class="auth-foot">No account yet? <a href="{{ url_for('signup') }}">Create one</a></p>
+    <div class="auth-card auth-card-wide">
+      <div class="auth-grid">
+        <div class="auth-copy">
+          <div class="brand-signin">
+            <div class="brand-mark">S</div>
+            <div>
+              <div class="brand-name">SYCRO</div>
+              <div class="brand-sub">FINANCIAL</div>
+            </div>
+          </div>
+          <h1>Sign in to your banking experience</h1>
+          <p class="auth-sub">Use the role selector to sign in as a customer or administrator.</p>
+        </div>
+        <div class="auth-form-card">
+          <form method="POST">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="••••••••••" required>
+            <label>Login as</label>
+            <select name="role" required>
+              <option value="user">User login</option>
+              <option value="admin">Admin login</option>
+            </select>
+            <button type="submit" class="btn-primary">Sign In</button>
+          </form>
+          <p class="auth-foot">No account yet? <a href="{{ url_for('signup') }}">Create one</a></p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

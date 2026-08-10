@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Zelle · SYCRO-FINANCIAL{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Zelle Transfer</h1>
+    <p class="subtle">Send money instantly to another enrolled customer.</p>
+  </div>
+</div>
+
+<div class="panel panel-narrow">
+  <form method="POST">
+    <label>Recipient Email</label>
+    <input type="email" name="recipient_email" placeholder="recipient@example.com" required>
+    <label>Amount</label>
+    <input type="text" name="amount" placeholder="0.00" required>
+    <label>Reference</label>
+    <input type="text" name="note" placeholder="Rent, groceries, gift">
+    <button type="submit" class="btn-primary">Send with Zelle</button>
+  </form>
+</div>
+{% endblock %}

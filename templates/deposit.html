@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Deposit · SYCRO-FINANCIAL{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Deposit Funds</h1>
+    <p class="subtle">Add balance to your checking or savings account.</p>
+  </div>
+</div>
+
+<div class="panel panel-narrow">
+  <form method="POST">
+    <label>Account</label>
+    <select name="account" required>
+      <option value="checking">Checking</option>
+      <option value="savings">Savings</option>
+    </select>
+    <label>Amount</label>
+    <input type="text" name="amount" placeholder="0.00" required>
+    <label>Reference</label>
+    <input type="text" name="note" placeholder="Salary, transfer, gift">
+    <button type="submit" class="btn-primary">Record Deposit</button>
+  </form>
+</div>
+{% endblock %}

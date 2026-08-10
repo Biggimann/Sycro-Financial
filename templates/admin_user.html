@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Customer Account · SYCRO-FINANCIAL{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>{{ target['full_name'] }}</h1>
+    <p class="subtle">Manage this customer's balances and review recent activity.</p>
+  </div>
+  <a href="{{ url_for('admin_dashboard') }}" class="link-button">Back to HQ</a>
+</div>
+
+<div class="cards-row single-row">
+  <div class="card card-checking">
+    <div class="card-top"><span>Checking</span><div class="card-icon">🏦</div></div>
+    <div class="card-balance">${{ "{:,.2f}".format(target['checking_balance']) }}</div>
+    <div class="card-label">Customer checking balance</div>
+  </div>
+  <div class="card card-savings">
+    <div class="card-top"><span>Savings</span><div class="card-icon">💎</div></div>
+    <div class="card-balance">${{ "{:,.2f}".format(target['savings_balance']) }}</div>
+    <div class="card-label">Customer savings balance</div>
+  </div>
+</div>
+
+<div class="panel panel-wide admin-action-panel">
+  <div class="panel-head"><span>Admin control center</span></div>
+  <div class="admin-actions-grid">
+    <form method="POST" class="admin-form">
+      <label>Action</label>
+      <select name="action">
+        <option value="deposit">Credit account</option>
+        <option value="withdraw">Debit account</option>
+      </select>
+      <label>Account</label>
+      <select name="account">
+        <option value="checking">Checking</option>
+        <option value="savings">Savings</option>
+      </select>
+      <label>Amount</label>
+      <input type="text" name="amount" placeholder="0.00" required>
+      <label>Note</label>
+      <input type="text" name="note" placeholder="Adjustment reason" required>
+      <button type="submit" class="btn-primary">Submit update</button>
+    </form>
+    <form method="POST" class="admin-form">
+      <label>Admin assistant command</label>
+      <input type="text" name="admin_command" placeholder="Credit 2500 checking, enable zelle, freeze account">
+      <button type="submit" class="btn-primary">Execute AI-style command</button>
+    </form>
+  </div>
+  <div class="admin-toggles">
+    <button type="submit" form="toggle-form" name="toggle_action" value="toggle_zelle" class="btn-secondary">{{ 'Disable' if target['zelle_enabled'] else 'Enable' }} Zelle</button>
+    <button type="submit" form="toggle-form" name="toggle_action" value="toggle_mobile" class="btn-secondary">{{ 'Disable' if target['mobile_deposit_enabled'] else 'Enable' }} Mobile Deposit</button>
+    <button type="submit" form="toggle-form" name="toggle_action" value="toggle_overdraft" class="btn-secondary">{{ 'Disable' if target['overdraft_protection'] else 'Enable' }} Overdraft</button>
+    <button type="submit" form="toggle-form" name="toggle_action" value="freeze_account" class="btn-danger">Freeze account</button>
+    <button type="submit" form="toggle-form" name="toggle_action" value="unfreeze_account" class="btn-primary">Unfreeze account</button>
+  </div>
+</div>
+<form method="POST" id="toggle-form"></form>
+
+<div class="panel panel-wide">
+  <div class="panel-head"><span>Recent admin actions</span></div>
+  {% if actions %}
+  <table class="transactions-table">
+    <thead>
+      <tr><th>Date</th><th>Admin</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      {% for a in actions %}
+      <tr>
+        <td>{{ a['created_at'] }}</td>
+        <td>{{ a['admin_name'] }}</td>
+        <td>{{ a['action'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">🛠</div>
+    <p class="empty">No admin actions recorded yet.</p>
+  </div>
+  {% endif %}
+</div>
+
+<div class="panel panel-wide">
+  <div class="panel-head"><span>Recent transactions</span></div>
+  {% if txns %}
+  <table class="transactions-table">
+    <thead>
+      <tr><th>Date</th><th>Description</th><th>Account</th><th>Amount</th></tr>
+    </thead>
+    <tbody>
+      {% for t in txns %}
+      <tr>
+        <td>{{ t['created_at'] }}</td>
+        <td>{{ t['description'] }}</td>
+        <td>{{ t['account']|title }}</td>
+        <td class="amount {{ 'negative' if t['amount'] < 0 else 'positive' }}">{{ '-' if t['amount'] < 0 else '+' }}${{ "{:,.2f}".format(t['amount']|abs) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">📄</div>
+    <p class="empty">This customer has no recent transactions.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

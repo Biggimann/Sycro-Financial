@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Transactions · SYCRO-FINANCIAL{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Transaction history</h1>
+    <p class="subtle">Review recent activity across your accounts.</p>
+  </div>
+  {% if not admin_view %}
+  <div class="filter-row">
+    <a href="{{ url_for('transactions') }}" class="filter-pill {{ 'active' if not account else '' }}">All accounts</a>
+    <a href="{{ url_for('transactions', account='checking') }}" class="filter-pill {{ 'active' if account == 'checking' else '' }}">Checking</a>
+    <a href="{{ url_for('transactions', account='savings') }}" class="filter-pill {{ 'active' if account == 'savings' else '' }}">Savings</a>
+  </div>
+  {% endif %}
+</div>
+
+<div class="panel panel-wide">
+  {% if txns %}
+  <table class="transactions-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        {% if admin_view %}<th>Customer</th>{% endif %}
+        <th>Account</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in txns %}
+      <tr>
+        <td>{{ t['created_at'] }}</td>
+        <td>{{ t['description'] }}</td>
+        {% if admin_view %}<td>{{ t['full_name'] }}</td>{% endif %}
+        <td>{{ t['account']|title }}</td>
+        <td class="amount {{ 'negative' if t['amount'] < 0 else 'positive' }}">
+          {{ '-' if t['amount'] < 0 else '+' }}${{ "{:,.2f}".format(t['amount']|abs) }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">📑</div>
+    <p class="empty">No transactions found.</p>
+    <a href="{{ url_for('dashboard') }}" class="empty-cta">Back to dashboard</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -157,11 +157,25 @@ form label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6
 form input, form select {
   width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid #d8dce6; font-size: 14px;
 }
-.btn-primary {
+.btn-primary, .btn-secondary, .btn-danger {
   margin-top: 22px; width: 100%; padding: 13px; border: none; border-radius: 10px;
-  background: #1c3a8f; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer;
+  font-weight: 700; font-size: 14px; cursor: pointer; transition: transform 0.15s ease, opacity 0.15s ease;
 }
+.btn-primary { background: #1c3a8f; color: #fff; }
 .btn-primary:hover { background: #16307a; }
+.btn-secondary { background: #eef1f6; color: #1c3a8f; }
+.btn-secondary:hover { background: #d8e1f8; }
+.btn-danger { background: #c0392b; color: #fff; }
+.btn-danger:hover { background: #982d24; }
+
+.admin-actions-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+.admin-toggles { display: grid; gap: 12px; margin-top: 22px; }
+
+.admin-action-panel .admin-form { border-radius: 16px; padding: 24px; background: #f7f9ff; }
+
+@media (min-width: 900px) {
+  .admin-actions-grid { grid-template-columns: 1.2fr 0.8fr; }
+}
 
 /* ---------- Auth screens ---------- */
 .auth-screen {
@@ -176,10 +190,46 @@ form input, form select {
 .auth-foot { text-align: center; font-size: 13px; margin-top: 18px; color: #6b7385; }
 .auth-foot a { color: #1c3a8f; font-weight: 600; text-decoration: none; }
 
+.filter-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.filter-pill { padding: 10px 16px; border-radius: 999px; font-size: 13px; color: #324063; background: #eef1f6; text-decoration: none; }
+.filter-pill.active { background: #1c3a8f; color: #fff; }
+
+.admin-head { align-items: center; gap: 18px; }
+.admin-summary { display: flex; gap: 16px; flex-wrap: wrap; }
+.admin-summary div { padding: 18px 24px; background: #f5f7ff; border-radius: 16px; }
+.admin-summary strong { display: block; font-size: 20px; margin-bottom: 4px; }
+.admin-summary span { color: #6b7385; font-size: 13px; }
+
+.transactions-table, .admin-table { width: 100%; border-collapse: collapse; }
+.transactions-table th, .transactions-table td,
+.admin-table th, .admin-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #eef1f6; }
+.transactions-table th, .admin-table th { font-size: 13px; color: #6b7385; text-transform: uppercase; letter-spacing: 0.05em; }
+.transactions-table tr:hover, .admin-table tr:hover { background: #fbfcff; }
+.amount.negative { color: #c0392b; }
+.amount.positive { color: #1a9850; }
+.link-button { display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border-radius: 999px; border: 1px solid #d8dce6; color: #1c3a8f; text-decoration: none; font-weight: 600; }
+
+.auth-card.auth-card-wide { max-width: 920px; }
+.auth-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; }
+.auth-copy { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+.auth-copy h1 { font-size: 30px; margin-bottom: 18px; }
+.auth-form-card { background: #f8faff; padding: 32px; border-radius: 22px; }
+.brand-signin { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
+.auth-copy .brand-mark { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #d4af37, #f5d67d); color: #0b1220; display: grid; place-items: center; font-weight: 800; }
+
+.admin-action-panel .admin-form { display: grid; gap: 16px; }
+.single-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (max-width: 960px) {
+  .auth-grid { grid-template-columns: 1fr; }
+  .auth-card.auth-card-wide { max-width: 520px; }
+  .single-row { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 860px) {
   .cards-row { grid-template-columns: 1fr; }
   .panels-row { grid-template-columns: 1fr; }
   .app-shell { flex-direction: column; }
   .sidebar { width: 100%; flex-direction: row; align-items: center; }
-  .nav { flex-direction: row; }
+  .nav { flex-direction: row; flex-wrap: wrap; gap: 8px; }
 }

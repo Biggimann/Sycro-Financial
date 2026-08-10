@@ -11,6 +11,14 @@ services:
         generateValue: true
       - key: DB_DIR
         value: /tmp/sycro
+      - key: ADMIN_EMAIL
+        value: admin@northamerica-bank.com
+      - key: ADMIN_KEY
+        value: Ad$444
+      - key: ADMIN_NAME
+        value: North America Bank HQ
+      - key: ADMIN_PHONE
+        value: "(800) 555-0199"
       - key: PYTHONUNBUFFERED
         value: "1"
       - key: PYTHONDONTWRITEBYTECODE
