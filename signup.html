@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Create Account · SYCRO-FINANCIAL{% endblock %}
+{% block auth_content %}
+<div class="auth-screen">
+  <div class="auth-panel">
+    <div class="auth-card">
+      <h1>Create Your Account</h1>
+      <p class="auth-sub">This is a personal finance tracker. Enter your own real figures — you can edit them anytime after signing in.</p>
+      <form method="POST">
+        <label>Full Name</label>
+        <input type="text" name="full_name" placeholder="Jane Doe" required>
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="you@example.com" required>
+        <label>Phone (optional)</label>
+        <input type="text" name="phone" placeholder="(555) 555-5555">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Choose a password" required>
+        <label>Starting Checking Balance</label>
+        <input type="text" name="checking_balance" placeholder="0.00">
+        <label>Starting Savings Balance</label>
+        <input type="text" name="savings_balance" placeholder="0.00">
+        <button type="submit" class="btn-primary">Create Account</button>
+      </form>
+      <p class="auth-foot">Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}
